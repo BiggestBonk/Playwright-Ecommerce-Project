@@ -38,17 +38,19 @@ export default defineConfig({
      { name: 'setup', testMatch: /.*\.setup\.ts/ },
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'] ,
+        storageState: 'playwright/.auth/automationuser.json'
+      },
+      dependencies: ['setup']
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: { ...devices['Desktop Firefox'],
+        storageState: 'playwright/.auth/automationuser.json'
+      },
+      dependencies: ['setup']
     },
 
     /* Test against mobile viewports. */
