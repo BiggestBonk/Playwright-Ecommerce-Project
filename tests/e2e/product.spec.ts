@@ -1,24 +1,28 @@
 import {test, expect} from '@playwright/test'
+import { HomePage } from '../../pages/HomePage';
+import { SearchPage } from '../../pages/SearchPage';
+import { ProductPage } from '../../pages/ProductPage';
 
 test.describe('Product Page', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto('https://www.amazon.com.au');
-        // Navigate to the product page
-        await page.getByRole('searchbox', { name: 'Search Amazon' }).fill('pipe cleaner');
-        await page.getByRole('searchbox', { name: 'Search Amazon' }).press('Enter');
+        const homePage = new HomePage(page)
+        await homePage.goto()
+        await homePage.search('pipe cleaner')
+        
     });
-
-    test('should view product details', async ({ page }) => {
-        // open the product page of the first item listed (to reduce flakiness)
-        await page.locator('.a-link-normal').first().click()
-        await expect(page.locator('#productTitle')).toBeVisible();
-        await expect(page.getByRole('button', { name: 'Add to cart' })).toBeVisible();
+    test('should view an individual product', async ({ page }) => {
+        const searchPage = new SearchPage(page)
+        const productPage = new ProductPage(page)
+        await searchPage.selectPurchaseableProduct()
+        const title = await productPage.getProductTitle()
+        expect(title).toContain('Pipe')
     });
 
     test('should add product to cart', async ({ page }) => {
-        await page.locator('.a-link-normal').first().click()
-        await page.locator('[id="submit.add-to-cart"]').click()
-        
-        await expect(page.getByRole('heading',{name: 'Added to Cart'})).toBeVisible();
+        const productPage = new ProductPage(page)
+        const searchPage = new SearchPage(page)
+        await searchPage.selectPurchaseableProduct()
+        await productPage.addToCart()
+        await expect(page.getByRole('heading', {name:'added to cart'})).toBeVisible();
     });
 });

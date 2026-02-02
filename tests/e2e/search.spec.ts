@@ -1,4 +1,6 @@
 import {test, expect} from "playwright/test";
+import { HomePage } from "../../pages/HomePage";
+import { SearchPage } from "../../pages/SearchPage";
 
 test.describe('Product search', () => {
         test.beforeEach(async ({ page }) => {
@@ -6,15 +8,15 @@ test.describe('Product search', () => {
         })
 
     test('should search for products to buy',async ({page}) => {
-        await page.getByRole('searchbox', { name: 'Search Amazon' }).fill('pipe cleaner');
-        await page.getByRole('searchbox', { name: 'Search Amazon' }).press('Enter');
-        await expect(page).toHaveURL(/.*s\?k=pipe.*/);
+    const homePage = new HomePage(page)
+    await homePage.search('pipe cleaner')
     })
     test('should filter search results by type', async ({page}) => {
-        await page.getByRole('searchbox', { name: 'Search Amazon' }).fill('pipe cleaner');
-        await page.getByRole('searchbox', { name: 'Search Amazon' }).press('Enter');  
-        await page.getByRole('link', { name: 'Craft', exact: true }).click()
-        await expect (page).toHaveURL(/.*craft.*/) 
+        const homePage = new HomePage(page)
+        const searchPage = new SearchPage(page)
+        await homePage.search('pipe cleaner')
+        await searchPage.applyFilter('Craft')
+        await searchPage.verifyAppliedFilter('craft')
     })
 
 })

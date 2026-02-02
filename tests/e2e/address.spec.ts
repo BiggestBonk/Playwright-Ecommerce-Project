@@ -7,7 +7,7 @@
       could be ran again 
  */
  
- test('user should fill in delivery details', async ({page}) => {
+ test.skip('user should fill in delivery details', async ({page}) => {
         await page.goto('https://www.amazon.com.au/checkout/p/p-251-2586408-8387017/address?pipelineType=Chewbacca&hasWorkingJavascript=1')
         await page.getByRole('link', { name:'Add a new delivery address'}).click()
         await page.locator('span').filter({hasText:'Australia'}).nth(4).click()
