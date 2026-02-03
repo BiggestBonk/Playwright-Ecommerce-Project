@@ -1,6 +1,6 @@
 # Amazon E2E Test Automation
 
-This is a test automation suite I built for amazon.com.au using Playwright and Typescript.
+This is a test automation suite I built for amazon.com.au using Playwright and Typescript. I primarily created this project to solidify my understanding of end-to-end testing using the Page Object Model, and also challenge myself by testing a real-world, live, E-commerce website with a relatively dynamic user-interface.
 
 ## Features:
 - Page Object Model architecture
@@ -29,4 +29,16 @@ npx playwright test search.spec.ts (or another file, e.g. checkout.spec.ts)
 
 # Run in headed mode 
 npx playwright test --headed
+```
+
+## View Reports
+```bash
+npx playwright show-report
+```
+
+## Project Structure
+```
+tests/                  # Test Files
+pages/                  # Page object Models
+playwright.config.ts    # Configuration File  
 ```
