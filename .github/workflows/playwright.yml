@@ -20,9 +20,9 @@ jobs:
     - name: Run Playwright tests
       run: npx playwright test
       env:
-        PROXY_URL: ${{env.PROXY_URL}}
-        USER_EMAIL: ${{env.USER_EMAIL}}
-        USER_PASSWORD: ${{env.USER_PASSWORD}}     
+        PROXY_URL: ${{secrets.PROXY_URL}}
+        USER_EMAIL: ${{secrets.USER_EMAIL}}
+        USER_PASSWORD: ${{secrets.USER_PASSWORD}}     
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
