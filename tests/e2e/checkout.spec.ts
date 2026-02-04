@@ -1,4 +1,8 @@
 import { test, expect } from "@playwright/test";
+import { HomePage } from "../../pages/HomePage";
+import { SearchPage } from "../../pages/SearchPage";
+import { ProductPage } from "../../pages/ProductPage";
+import { CheckoutPage } from "../../pages/CheckoutPage";
 
 test.describe('Checkout Flow', () => {
     test.beforeEach(async ({page}) => {
@@ -8,15 +12,18 @@ test.describe('Checkout Flow', () => {
         await page.getByText('delete').click()
     }
         // Navigate to the product page
-        await page.goto('https://www.amazon.com.au')
-        await page.getByRole('searchbox', { name: 'Search Amazon' }).fill('pipe cleaner');
-        await page.getByRole('searchbox', { name: 'Search Amazon' }).press('Enter');
-        await page.locator('.a-link-normal').first().click()
-        await page.locator('[id="submit.add-to-cart"]').click()
+        const homePage = new HomePage(page)
+        const searchPage = new SearchPage(page)
+        const productPage = new ProductPage(page)
+        await homePage.goto()
+        await homePage.search('pipecleaner')
+        await searchPage.selectPurchaseableProduct()
+        await productPage.addToCart()
         
     })
     test('should proceed to checkout', async ({page}) => {
-        await page.getByRole('button', { name: 'Proceed to checkout' }).click();
-        await expect(page).toHaveURL(/.*checkout.*/);
+        const checkoutPage = new CheckoutPage(page)
+        await checkoutPage.proceedToCheckout()
+        await expect(page).toHaveURL(/.*checkout.*/)
     })
 })

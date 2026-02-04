@@ -1,4 +1,4 @@
-import {test, expect} from "playwright/test";
+import {test} from "playwright/test";
 import { HomePage } from "../../pages/HomePage";
 import { SearchPage } from "../../pages/SearchPage";
 
@@ -15,8 +15,8 @@ test.describe('Product search', () => {
         const homePage = new HomePage(page)
         const searchPage = new SearchPage(page)
         await homePage.search('pipe cleaner')
-        await searchPage.applyFilter('Craft')
-        await searchPage.verifyAppliedFilter('craft')
+        await searchPage.applyFilter('Straw')
+        await searchPage.verifyAppliedFilter()
     })
 
 })

@@ -1,22 +1,11 @@
- import {test,expect} from '@playwright/test'
- 
- /* Address tests are skipped currently because:
-    - Amazon doesn't have a way to delete addresses via the UI, and each of the address fields (once set) can't be left blank
-    - Adding extra addresses with each test run would make the test scenario unrealistic and pollutes the account
-    - Currently each element of the address would need to be replaced with valid credentials manually before the test
-      could be ran again 
- */
- 
- test.skip('user should fill in delivery details', async ({page}) => {
-        await page.goto('https://www.amazon.com.au/checkout/p/p-251-2586408-8387017/address?pipelineType=Chewbacca&hasWorkingJavascript=1')
-        await page.getByRole('link', { name:'Add a new delivery address'}).click()
-        await page.locator('span').filter({hasText:'Australia'}).nth(4).click()
-        await page.locator('#address-ui-widgets-countryCode-dropdown-nativeId_159').click();
-        await page.getByRole('textbox', { name: 'Full name (First name and surname)' }).fill('Greg Jeffries')
-        await page.getByRole('textbox', { name: '9 309 6677' }).fill('2 135 9821')
-        await page.getByRole('textbox', { name: 'Street address' }).fill('73 Fairytale Way')
-        await page.getByRole('textbox', {name: 'Postcode'}).fill('9999')
-        await page.getByRole('textbox', { name: 'Suburb' }).fill('Liarsville')
-        await page.getByRole('textbox', { name: 'Town or City' }).fill('Smellington')
-        await page.getByTestId('bottom-continue-button').click()
+ import {test} from '@playwright/test'
+ import { AddressPage } from '../../pages/AddressPage'
+
+ test('User should fill in delivery details', async ({page}) => {
+       const addressPage = new AddressPage(page)
+       await addressPage.goto()
+       await addressPage.OpenChangeAddress()
+       await addressPage.ChangeCountry()
+       await addressPage.FillDeliveryDetails()
+       await addressPage.ConfirmAddress()
  })

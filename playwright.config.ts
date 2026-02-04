@@ -48,6 +48,7 @@ export default defineConfig({
         '**/tests/e2e/search.spec.ts',
         '**/tests/e2e/product.spec.ts',
         '**/tests/e2e/checkout.spec.ts',
+        '**/tests/e2e/address.spec.ts'
       ]
     },
     {

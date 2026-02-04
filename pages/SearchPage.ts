@@ -4,11 +4,11 @@ export class SearchPage extends BasePage {
     private readonly resultItems = this.page.locator('.s-result-item')
 
     async applyFilter(type: string) {
-       await this.page.locator('#filter- li').filter({ hasText: `${type}` }).click()
+       await this.page.getByRole('link' , {name: type, exact: true}).click()
     }
 
-    async verifyAppliedFilter(filterName:string) {
-       await expect(this.page.getByRole('heading', { name: '1-48 of over 1,000 results for "pipe cleaners"', exact: false })).toContainText(filterName)
+    async verifyAppliedFilter() {
+       await expect(this.page).toHaveURL(/.*straw.*/)
     }
     
     // increased specifity in order to avoid products that require prime
